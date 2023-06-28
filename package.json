@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "tsc && node dist/2022/2022-01",
+    "cp-static": "cp -r static dist"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.2"
+  }
+}
