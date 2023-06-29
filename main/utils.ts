@@ -8,9 +8,9 @@ export const readFilePath = async (filePath: string): Promise<Buffer> => {
   return fileData;
 };
 
-export const splitFileDataByCarriageReturnAndNewLine = (
-  fileData: Buffer
-): string[] => fileData.toString().split(/\r\n/);
-
-export const splitFileDataByNewLine = (fileData: Buffer): string[] =>
-  fileData.toString().split(/\n/);
+export const splitFileDataByNewLine = (fileData: Buffer): string[] => {
+  const fileDataString = fileData.toString();
+  return fileDataString.indexOf("\r") !== -1
+    ? fileDataString.toString().split(/\r\n/)
+    : fileDataString.split(/\n/);
+};

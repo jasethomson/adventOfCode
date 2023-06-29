@@ -1,73 +1,50 @@
-import { LookupAddress } from "dns";
 import path from "path";
-import {
-  readFilePath,
-  splitFileDataByCarriageReturnAndNewLine,
-} from "../../utils";
+import { readFilePath, splitFileDataByNewLine } from "../../utils";
 
 const rootFilePath = "../../static/2022/2022-02/";
 const filePath: string = path.join(__dirname, `${rootFilePath}input.txt`);
 
-type PointsOptions = "X" | "Y" | "Z";
+type ResultOptions = "X" | "Y" | "Z";
 type EnemyOptions = "A" | "B" | "C";
-interface Points {
-  X: number;
-  Y: number;
-  Z: number;
-  WIN: number;
-  TIE: number;
-  LOSS: number;
-}
 
 const calculateScore = (
   scoreA: EnemyOptions,
-  scoreB: PointsOptions
+  scoreB: ResultOptions
 ): number => {
   const points = {
-    X: 1,
-    Y: 2,
-    Z: 3,
     WIN: 6,
     TIE: 3,
     LOSS: 0,
   };
   let result = null;
-  //enemy rock friendly paper = > friendly wins
-  if (scoreA === "A" && scoreB === "Y") {
-    result = points.WIN;
-    //enemy rock friendly scissors = > enemy wins
+  if (scoreA === "A" && scoreB === "X") {
+    result = 3 + points.LOSS;
+  } else if (scoreA === "A" && scoreB === "Y") {
+    result = 1 + points.TIE;
   } else if (scoreA === "A" && scoreB === "Z") {
-    result = points.LOSS;
-    //enemy paper friendly rock = > enemy wins
+    result = 2 + points.WIN;
   } else if (scoreA === "B" && scoreB === "X") {
-    result = points.LOSS;
-    //enemy paper friendly scissors = > friendly wins
-  } else if (scoreA === "B" && scoreB === "Z") {
-    result = points.WIN;
-    //enemy scissors friendly rock = > friendly wins
-  } else if (scoreA === "C" && scoreB === "X") {
-    result = points.WIN;
-    //enemy scissors friendly paper = > enemy wins
-  } else if (scoreA === "C" && scoreB === "Y") {
-    result = points.LOSS;
-    //enemy rock friendly rock = > tie
-  } else if (scoreA === "A" && scoreB === "X") {
-    result = points.TIE;
-    //enemy paper friendly paper = > tie
+    result = 1 + points.LOSS;
   } else if (scoreA === "B" && scoreB === "Y") {
-    result = points.TIE;
-    //enemy scissors friendly scissors = > tie
+    result = 2 + points.TIE;
+  } else if (scoreA === "B" && scoreB === "Z") {
+    result = 3 + points.WIN;
+  } else if (scoreA === "C" && scoreB === "X") {
+    result = 2 + points.LOSS;
+  } else if (scoreA === "C" && scoreB === "Y") {
+    result = 3 + points.TIE;
   } else if (scoreA === "C" && scoreB === "Z") {
-    result = points.TIE;
+    result = 1 + points.WIN;
   } else {
     return 0;
   }
-  return result + points[scoreB];
+
+  return result;
 };
 
 (async () => {
   const fileData = await readFilePath(filePath);
-  const fileDataByLine = splitFileDataByCarriageReturnAndNewLine(fileData);
+  const fileDataByLine = splitFileDataByNewLine(fileData);
 
   let totalPoints = 0;
   fileDataByLine.forEach((round) => {
