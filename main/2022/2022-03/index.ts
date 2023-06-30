@@ -9,12 +9,13 @@ const createCompartmentMap = (compartment: string[]): Map<string, string> => {
 };
 
 const compareLetters = (
-  compartment: string,
-  map: Map<string, string>
+  rucksack: string,
+  map1: Map<string, string>,
+  map2: Map<string, string>
 ): null | string => {
-  if (!compartment.length) return null;
-  if (map.get(compartment[0])) return compartment[0];
-  return compareLetters(compartment.slice(1), map);
+  if (!rucksack.length) return null;
+  if (map1.get(rucksack[0]) && map2.get(rucksack[0])) return rucksack[0];
+  return compareLetters(rucksack.slice(1), map1, map2);
 };
 
 const sumLetter = (letter: string): number => {
@@ -26,15 +27,18 @@ const sumLetter = (letter: string): number => {
   const fileData = await readFilePath(filePath);
   const fileDataByLine = splitFileDataByNewLine(fileData);
   let totalScore = 0;
-  fileDataByLine.forEach((rucksack) => {
-    if (!rucksack) return;
-    const compartment1 = rucksack.slice(0, rucksack.length / 2);
-    const compartment2 = rucksack.slice(rucksack.length / 2, rucksack.length);
-    const compartment2Map = createCompartmentMap(compartment2.split(""));
-    const result = compareLetters(compartment1, compartment2Map);
+  for (let i = 0; i < fileDataByLine.length; i += 3) {
+    const rucksack1 = fileDataByLine[i];
+    const rucksack2 = fileDataByLine[i + 1];
+    const rucksack3 = fileDataByLine[i + 2];
+    if (!rucksack1 || !rucksack2 || !rucksack3) return null;
+    const compartment2Map = createCompartmentMap(rucksack2.split(""));
+    const compartment3Map = createCompartmentMap(rucksack3.split(""));
+    const result = compareLetters(rucksack1, compartment2Map, compartment3Map);
     if (!result) return;
     const score = sumLetter(result);
     totalScore += score;
-  });
-  console.log("Total score", totalScore);
+    console.log(totalScore);
+  }
+  console.log("Total score ", totalScore);
 })();
