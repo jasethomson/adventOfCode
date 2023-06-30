@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "main": "tsc && node dist/2022/2022-02",
+    "main": "tsc && node dist/2022/2022-03",
     "cp-static": "cp -r static dist"
   },
   "dependencies": {
