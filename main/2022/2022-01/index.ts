@@ -1,8 +1,5 @@
 import path from "path";
-import {
-  readFilePath,
-  splitFileDataByCarriageReturnAndNewLine,
-} from "../../utils";
+import { readFilePath, splitFileDataByNewLine } from "../../utils";
 
 interface Elf {
   position: number;
@@ -24,7 +21,7 @@ const getTopElves = (
 
 (async () => {
   const fileData = await readFilePath(filePath);
-  const fileDataByLine = splitFileDataByCarriageReturnAndNewLine(fileData);
+  const fileDataByLine = splitFileDataByNewLine(fileData);
   let position = 1;
   const elves = [{ position, calories: 0 }];
   let topElves: Elf[] = [];
