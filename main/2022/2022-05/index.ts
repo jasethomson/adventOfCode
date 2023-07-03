@@ -39,9 +39,12 @@ const updateCrates = (
   crateMap: CrateMap
 ): CrateMap => {
   const cratesToMove = crateMap[moveFromCrateKey].splice(0, amountToMove);
-  cratesToMove.forEach((crate, count) =>
-    crateMap[moveToCrateKey].unshift(crate)
-  );
+  // part 1
+  // cratesToMove.forEach((crate, count) =>
+  //   crateMap[moveToCrateKey].unshift(crate)
+  // );
+  // part 2
+  crateMap[moveToCrateKey] = [...cratesToMove, ...crateMap[moveToCrateKey]];
   return crateMap;
 };
 
@@ -69,5 +72,5 @@ const updateCrates = (
   for (const crate in updatedCrates) {
     if (updatedCrates[crate][0]?.[1]) topCrates += updatedCrates[crate][0][1];
   }
-  console.log(topCrates); // part 1: HBTMTBSDC
+  console.log(topCrates); // part 1: HBTMTBSDC part 2: PQTJRSHWS
 })();
