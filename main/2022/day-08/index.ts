@@ -4,7 +4,10 @@ import { readFilePath, splitFileDataByNewLine } from "../../utils";
 const date = __dirname.split("dist")[1].replace(/\\/g, "/");
 const rootFilePath = `../../static/${date}/`;
 
-const filePath: string = path.join(__dirname, `${rootFilePath}input.txt`);
+const filePath: string = path.join(
+  __dirname,
+  `${rootFilePath}sample-input.txt`
+);
 
 (async () => {
   const fileData = await readFilePath(filePath);
